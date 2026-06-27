@@ -106,7 +106,7 @@ object MediaFireFileSystemProvider : FileSystemProvider(), PathObservableProvide
         }
 
     @Throws(IOException::class)
-    fun getKeyInfo(path: MediaFirePath): MediaFireFileSystem.KeyInfo {
+    internal fun getKeyInfo(path: MediaFirePath): MediaFireFileSystem.KeyInfo {
         val fileSystem = path.fileSystem as MediaFireFileSystem
         val pathStr = path.toString()
         val cached = fileSystem.getCachedKey(pathStr)

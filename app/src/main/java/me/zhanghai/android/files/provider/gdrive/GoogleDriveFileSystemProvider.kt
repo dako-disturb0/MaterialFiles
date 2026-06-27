@@ -115,7 +115,7 @@ object GoogleDriveFileSystemProvider : FileSystemProvider(), PathObservableProvi
         }
 
     @Throws(IOException::class)
-    fun getKeyInfo(path: GoogleDrivePath): GoogleDriveFileSystem.KeyInfo {
+    internal fun getKeyInfo(path: GoogleDrivePath): GoogleDriveFileSystem.KeyInfo {
         val fileSystem = path.fileSystem as GoogleDriveFileSystem
         val pathStr = path.toString()
         val cached = fileSystem.getCachedKey(pathStr)
