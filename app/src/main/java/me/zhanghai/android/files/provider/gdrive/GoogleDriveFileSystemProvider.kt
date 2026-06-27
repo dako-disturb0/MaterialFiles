@@ -170,7 +170,7 @@ object GoogleDriveFileSystemProvider : FileSystemProvider(), PathObservableProvi
     @Throws(IOException::class)
     override fun newDirectoryStream(
         dir: Path,
-        filter: DirectoryStream.Filter<in Path>?
+        filter: DirectoryStream.Filter<in Path>
     ): DirectoryStream<Path> {
         dir as? GoogleDrivePath ?: throw ProviderMismatchException(dir.toString())
         val dirInfo = getKeyInfo(dir)
@@ -191,12 +191,9 @@ object GoogleDriveFileSystemProvider : FileSystemProvider(), PathObservableProvi
                 name = file.name
             )
             (dir.fileSystem as GoogleDriveFileSystem).putCachedKey(path.toString(), info)
-
-            if (filter == null || filter.accept(path)) {
-                paths.add(path)
-            }
+            paths.add(path)
         }
-        return PathListDirectoryStream(paths)
+        return PathListDirectoryStream(paths, filter)
     }
 
     @Throws(IOException::class)
@@ -216,7 +213,7 @@ object GoogleDriveFileSystemProvider : FileSystemProvider(), PathObservableProvi
             name = name
         )
         (dir.fileSystem as GoogleDriveFileSystem).putCachedKey(dir.toString(), info)
-        LocalWatchService.onEntryCreated(dir as ByteStringPath<*>)
+        LocalWatchService.onEntryCreated(dir as ByteStringPath)
     }
 
     @Throws(IOException::class)
@@ -226,7 +223,7 @@ object GoogleDriveFileSystemProvider : FileSystemProvider(), PathObservableProvi
         GoogleDriveClient.deleteFile(path.authority.clientEmail, info.key)
         val fileSystem = path.fileSystem as GoogleDriveFileSystem
         fileSystem.removeCachedKey(path.toString())
-        LocalWatchService.onEntryDeleted(path as ByteStringPath<*>)
+        LocalWatchService.onEntryDeleted(path as ByteStringPath)
     }
 
     @Throws(IOException::class)
@@ -273,8 +270,8 @@ object GoogleDriveFileSystemProvider : FileSystemProvider(), PathObservableProvi
         )
         fileSystem.putCachedKey(target.toString(), newInfo)
 
-        LocalWatchService.onEntryDeleted(source as ByteStringPath<*>)
-        LocalWatchService.onEntryCreated(target as ByteStringPath<*>)
+        LocalWatchService.onEntryDeleted(source as ByteStringPath)
+        LocalWatchService.onEntryCreated(target as ByteStringPath)
     }
 
     @Throws(IOException::class)
@@ -374,7 +371,7 @@ object GoogleDriveFileSystemProvider : FileSystemProvider(), PathObservableProvi
         if (isWrite) {
             val fileSystem = path.fileSystem as GoogleDriveFileSystem
             fileSystem.removeCachedKey(path.toString())
-            LocalWatchService.onEntryCreated(path as ByteStringPath<*>)
+            LocalWatchService.onEntryCreated(path as ByteStringPath)
         }
 
         return channel
@@ -426,6 +423,25 @@ object GoogleDriveFileSystemProvider : FileSystemProvider(), PathObservableProvi
         throw UnsupportedOperationException(type.toString())
     }
 
+    override fun readAttributes(
+        path: Path,
+        attributes: String,
+        vararg options: LinkOption
+    ): Map<String, Any> {
+        path as? GoogleDrivePath ?: throw ProviderMismatchException(path.toString())
+        throw UnsupportedOperationException()
+    }
+
+    override fun setAttribute(
+        path: Path,
+        attribute: String,
+        value: Any,
+        vararg options: LinkOption
+    ) {
+        path as? GoogleDrivePath ?: throw ProviderMismatchException(path.toString())
+        throw UnsupportedOperationException()
+    }
+
     override fun isHidden(path: Path): Boolean {
         path as? GoogleDrivePath ?: throw ProviderMismatchException(path.toString())
         return path.fileName?.startsWith(HIDDEN_FILE_NAME_PREFIX) ?: false
@@ -437,13 +453,20 @@ object GoogleDriveFileSystemProvider : FileSystemProvider(), PathObservableProvi
         return path == path2
     }
 
-    override fun observe(path: Path): PathObservable {
+    @Throws(IOException::class)
+    override fun observe(path: Path, intervalMillis: Long): PathObservable {
         path as? GoogleDrivePath ?: throw ProviderMismatchException(path.toString())
-        return WatchServicePathObservable(path)
+        return WatchServicePathObservable(path, intervalMillis)
     }
 
-    override fun search(directory: Path, query: String, intervalMillis: Long): Searchable.Result {
+    @Throws(IOException::class)
+    override fun search(
+        directory: Path,
+        query: String,
+        intervalMillis: Long,
+        listener: (List<Path>) -> Unit
+    ) {
         directory as? GoogleDrivePath ?: throw ProviderMismatchException(directory.toString())
-        return WalkFileTreeSearchable.search(directory, query, intervalMillis)
+        WalkFileTreeSearchable.search(directory, query, intervalMillis, listener)
     }
 }

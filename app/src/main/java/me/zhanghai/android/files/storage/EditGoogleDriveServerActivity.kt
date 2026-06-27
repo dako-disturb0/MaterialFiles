@@ -6,16 +6,19 @@
 package me.zhanghai.android.files.storage
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import me.zhanghai.android.files.util.commitFragment
+import android.view.View
+import androidx.fragment.app.commit
+import me.zhanghai.android.files.app.AppActivity
 
-class EditGoogleDriveServerActivity : AppCompatActivity() {
+class EditGoogleDriveServerActivity : AppActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Calls ensureSubDecor().
+        findViewById<View>(android.R.id.content)
         if (savedInstanceState == null) {
             val fragment = EditGoogleDriveServerFragment().apply { arguments = intent.extras }
-            commitFragment(fragment)
+            supportFragmentManager.commit { add(android.R.id.content, fragment) }
         }
     }
 }

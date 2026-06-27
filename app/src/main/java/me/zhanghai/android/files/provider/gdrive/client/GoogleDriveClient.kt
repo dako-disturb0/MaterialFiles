@@ -16,6 +16,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
 import java.io.IOException
+import java.net.URLEncoder
 import java.security.KeyFactory
 import java.security.PrivateKey
 import java.security.Signature
@@ -156,7 +157,7 @@ object GoogleDriveClient {
     fun getFilesList(clientEmail: String, parentId: String): FolderContent {
         val query = "'$parentId' in parents and trashed = false"
         val fields = "files(id, name, mimeType, size, modifiedTime)"
-        val url = "https://www.googleapis.com/drive/v3/files?q=${okhttp3.HttpUrl.encode(query, 0, query.length, true, true, true, true, null, null)}&fields=${okhttp3.HttpUrl.encode(fields, 0, fields.length, true, true, true, true, null, null)}&pageSize=1000"
+        val url = "https://www.googleapis.com/drive/v3/files?q=${URLEncoder.encode(query, "UTF-8")}&fields=${URLEncoder.encode(fields, "UTF-8")}&pageSize=1000"
         val request = buildAuthorizedRequest(clientEmail, url).build()
 
         okHttpClient.newCall(request).execute().use { response ->
@@ -191,7 +192,7 @@ object GoogleDriveClient {
 
     fun getFileMetadata(clientEmail: String, fileId: String): GoogleDriveFile {
         val fields = "id, name, mimeType, size, modifiedTime"
-        val url = "https://www.googleapis.com/drive/v3/files/$fileId?fields=${okhttp3.HttpUrl.encode(fields, 0, fields.length, true, true, true, true, null, null)}"
+        val url = "https://www.googleapis.com/drive/v3/files/$fileId?fields=${URLEncoder.encode(fields, "UTF-8")}"
         val request = buildAuthorizedRequest(clientEmail, url).build()
 
         okHttpClient.newCall(request).execute().use { response ->

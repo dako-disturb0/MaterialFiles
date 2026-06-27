@@ -11,7 +11,7 @@ import me.zhanghai.android.files.provider.common.UriAuthority
 
 @Parcelize
 data class Authority(val clientEmail: String) : Parcelable {
-    fun toUriAuthority(): UriAuthority = UriAuthority(clientEmail)
+    fun toUriAuthority(): UriAuthority = UriAuthority(null, clientEmail, null)
 
     override fun toString(): String = clientEmail
 }

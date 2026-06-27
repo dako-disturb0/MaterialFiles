@@ -185,7 +185,7 @@ object MediaFireFileSystemProvider : FileSystemProvider(), PathObservableProvide
     @Throws(IOException::class)
     override fun newDirectoryStream(
         dir: Path,
-        filter: DirectoryStream.Filter<in Path>?
+        filter: DirectoryStream.Filter<in Path>
     ): DirectoryStream<Path> {
         dir as? MediaFirePath ?: throw ProviderMismatchException(dir.toString())
         val dirInfo = getKeyInfo(dir)
@@ -197,17 +197,13 @@ object MediaFireFileSystemProvider : FileSystemProvider(), PathObservableProvide
         val paths = mutableListOf<Path>()
         for (folder in content.folders) {
             val path = dir.resolve(folder.name)
-            if (filter == null || filter.accept(path)) {
-                paths.add(path)
-            }
+            paths.add(path)
         }
         for (file in content.files) {
             val path = dir.resolve(file.name)
-            if (filter == null || filter.accept(path)) {
-                paths.add(path)
-            }
+            paths.add(path)
         }
-        return PathListDirectoryStream(paths)
+        return PathListDirectoryStream(paths, filter)
     }
 
     @Throws(IOException::class)
@@ -227,7 +223,7 @@ object MediaFireFileSystemProvider : FileSystemProvider(), PathObservableProvide
             name = name
         )
         (dir.fileSystem as MediaFireFileSystem).putCachedKey(dir.toString(), info)
-        LocalWatchService.onEntryCreated(dir as ByteStringPath<*>)
+        LocalWatchService.onEntryCreated(dir as ByteStringPath)
     }
 
     @Throws(IOException::class)
@@ -241,7 +237,7 @@ object MediaFireFileSystemProvider : FileSystemProvider(), PathObservableProvide
         }
         val fileSystem = path.fileSystem as MediaFireFileSystem
         fileSystem.removeCachedKey(path.toString())
-        LocalWatchService.onEntryDeleted(path as ByteStringPath<*>)
+        LocalWatchService.onEntryDeleted(path as ByteStringPath)
     }
 
     @Throws(IOException::class)
@@ -296,8 +292,8 @@ object MediaFireFileSystemProvider : FileSystemProvider(), PathObservableProvide
         )
         fileSystem.putCachedKey(target.toString(), newInfo)
 
-        LocalWatchService.onEntryDeleted(source as ByteStringPath<*>)
-        LocalWatchService.onEntryCreated(target as ByteStringPath<*>)
+        LocalWatchService.onEntryDeleted(source as ByteStringPath)
+        LocalWatchService.onEntryCreated(target as ByteStringPath)
     }
 
     @Throws(IOException::class)
@@ -341,7 +337,7 @@ object MediaFireFileSystemProvider : FileSystemProvider(), PathObservableProvide
         if (isWrite) {
             val fileSystem = path.fileSystem as MediaFireFileSystem
             fileSystem.removeCachedKey(path.toString())
-            LocalWatchService.onEntryCreated(path as ByteStringPath<*>)
+            LocalWatchService.onEntryCreated(path as ByteStringPath)
         }
 
         return channel
@@ -393,6 +389,25 @@ object MediaFireFileSystemProvider : FileSystemProvider(), PathObservableProvide
         throw UnsupportedOperationException(type.toString())
     }
 
+    override fun readAttributes(
+        path: Path,
+        attributes: String,
+        vararg options: LinkOption
+    ): Map<String, Any> {
+        path as? MediaFirePath ?: throw ProviderMismatchException(path.toString())
+        throw UnsupportedOperationException()
+    }
+
+    override fun setAttribute(
+        path: Path,
+        attribute: String,
+        value: Any,
+        vararg options: LinkOption
+    ) {
+        path as? MediaFirePath ?: throw ProviderMismatchException(path.toString())
+        throw UnsupportedOperationException()
+    }
+
     override fun isHidden(path: Path): Boolean {
         path as? MediaFirePath ?: throw ProviderMismatchException(path.toString())
         return path.fileName?.startsWith(HIDDEN_FILE_NAME_PREFIX) ?: false
@@ -404,13 +419,20 @@ object MediaFireFileSystemProvider : FileSystemProvider(), PathObservableProvide
         return path == path2
     }
 
-    override fun observe(path: Path): PathObservable {
+    @Throws(IOException::class)
+    override fun observe(path: Path, intervalMillis: Long): PathObservable {
         path as? MediaFirePath ?: throw ProviderMismatchException(path.toString())
-        return WatchServicePathObservable(path)
+        return WatchServicePathObservable(path, intervalMillis)
     }
 
-    override fun search(directory: Path, query: String, intervalMillis: Long): Searchable.Result {
+    @Throws(IOException::class)
+    override fun search(
+        directory: Path,
+        query: String,
+        intervalMillis: Long,
+        listener: (List<Path>) -> Unit
+    ) {
         directory as? MediaFirePath ?: throw ProviderMismatchException(directory.toString())
-        return WalkFileTreeSearchable.search(directory, query, intervalMillis)
+        WalkFileTreeSearchable.search(directory, query, intervalMillis, listener)
     }
 }

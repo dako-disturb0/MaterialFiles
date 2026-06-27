@@ -14,7 +14,7 @@ data class Authority(
     val email: String
 ) : Parcelable {
     fun toUriAuthority(): UriAuthority {
-        return UriAuthority(email, null, null)
+        return UriAuthority(null, email, null)
     }
 
     override fun toString(): String = email
