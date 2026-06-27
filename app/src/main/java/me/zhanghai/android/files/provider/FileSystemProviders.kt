@@ -19,8 +19,10 @@ import me.zhanghai.android.files.provider.linux.LinuxFileSystemProvider
 import me.zhanghai.android.files.provider.root.isRunningAsRoot
 import me.zhanghai.android.files.provider.sftp.SftpFileSystemProvider
 import me.zhanghai.android.files.provider.smb.SmbFileSystemProvider
+import me.zhanghai.android.files.provider.mediafire.MediaFireFileSystemProvider
 import me.zhanghai.android.files.provider.webdav.WebDavFileSystemProvider
 import me.zhanghai.android.files.provider.webdav.WebDavsFileSystemProvider
+import me.zhanghai.android.files.provider.gdrive.GoogleDriveFileSystemProvider
 
 object FileSystemProviders {
     /**
@@ -46,6 +48,8 @@ object FileSystemProviders {
             FileSystemProvider.installProvider(SmbFileSystemProvider)
             FileSystemProvider.installProvider(WebDavFileSystemProvider)
             FileSystemProvider.installProvider(WebDavsFileSystemProvider)
+            FileSystemProvider.installProvider(MediaFireFileSystemProvider)
+            FileSystemProvider.installProvider(GoogleDriveFileSystemProvider)
         }
         Files.installFileTypeDetector(AndroidFileTypeDetector)
     }

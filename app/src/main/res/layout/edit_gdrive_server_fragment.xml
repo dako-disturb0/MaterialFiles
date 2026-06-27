@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2026 Hai Zhang <dreaming.in.code.zh@gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <me.zhanghai.android.files.ui.CoordinatorAppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?colorAppBarSurface"
+        android:theme="?actionBarTheme"
+        app:liftOnScroll="true"
+        app:liftOnScrollTargetViewId="@id/scrollView">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            app:popupTheme="?actionBarPopupTheme" />
+    </me.zhanghai.android.files.ui.CoordinatorAppBarLayout>
+
+    <me.zhanghai.android.files.ui.CoordinatorScrollingLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <ProgressBar
+                android:id="@+id/progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone" />
+
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/scrollView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical"
+                android:scrollIndicators="bottom">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/screen_edge_margin"
+                    android:paddingEnd="@dimen/screen_edge_margin"
+                    android:paddingTop="@dimen/screen_edge_margin"
+                    android:paddingBottom="@dimen/screen_edge_margin_minus_16dp"
+                    android:animateLayoutChanges="true"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/serviceAccountJsonLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/storage_edit_gdrive_server_json"
+                        app:errorEnabled="true">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/serviceAccountJsonEdit"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="top"
+                            android:lines="6"
+                            android:scrollbars="vertical"
+                            android:inputType="textMultiLine">
+                            <requestFocus />
+                        </com.google.android.material.textfield.TextInputEditText>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <Button
+                        android:id="@+id/importJsonButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:text="@string/storage_edit_gdrive_server_import_json"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/rootFolderIdLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/storage_edit_gdrive_server_root_folder_id"
+                        app:errorEnabled="true"
+                        app:expandedHintEnabled="false"
+                        app:placeholderText="@string/storage_edit_gdrive_server_root_folder_id_placeholder">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/rootFolderIdEdit"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:importantForAutofill="no"
+                            android:inputType="text" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/nameLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/storage_edit_gdrive_server_name"
+                        app:errorEnabled="true"
+                        app:expandedHintEnabled="false"
+                        app:placeholderText="@string/storage_edit_gdrive_server_name_placeholder">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/nameEdit"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:importantForAutofill="no"
+                            android:inputType="text" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/viewWithMediaCacheSwitch"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:checked="true"
+                        android:text="@string/storage_edit_gdrive_server_view_with_media_cache" />
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:paddingStart="@dimen/screen_edge_margin_minus_8dp"
+            android:paddingEnd="@dimen/screen_edge_margin_minus_8dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/removeOrAddButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="0dp"
+                android:text="@string/save"
+                style="?buttonBarButtonStyle" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/cancelButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@android:string/cancel"
+                style="?buttonBarButtonStyle" />
+
+            <Button
+                android:id="@+id/saveOrConnectAndAddButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/save"
+                style="?buttonBarButtonStyle" />
+        </LinearLayout>
+    </me.zhanghai.android.files.ui.CoordinatorScrollingLinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

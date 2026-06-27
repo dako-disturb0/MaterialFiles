@@ -20,6 +20,8 @@ import me.zhanghai.android.files.storage.FtpServerAuthenticator
 import me.zhanghai.android.files.storage.SftpServerAuthenticator
 import me.zhanghai.android.files.storage.SmbServerAuthenticator
 import me.zhanghai.android.files.storage.StorageVolumeListLiveData
+import me.zhanghai.android.files.storage.MediaFireServerAuthenticator
+import me.zhanghai.android.files.storage.GoogleDriveServerAuthenticator
 import me.zhanghai.android.files.storage.WebDavServerAuthenticator
 import me.zhanghai.android.files.theme.custom.CustomThemeHelper
 import me.zhanghai.android.files.theme.night.NightModeHelper
@@ -28,6 +30,8 @@ import me.zhanghai.android.files.provider.ftp.client.Client as FtpClient
 import me.zhanghai.android.files.provider.sftp.client.Client as SftpClient
 import me.zhanghai.android.files.provider.smb.client.Client as SmbClient
 import me.zhanghai.android.files.provider.webdav.client.Client as WebDavClient
+import me.zhanghai.android.files.provider.mediafire.client.Client as MediaFireClient
+import me.zhanghai.android.files.provider.gdrive.client.GoogleDriveClient
 
 val appInitializers = listOf(
     ::initializeCrashlytics,
@@ -74,6 +78,8 @@ private fun initializeFileSystemProviders() {
     SftpClient.authenticator = SftpServerAuthenticator
     SmbClient.authenticator = SmbServerAuthenticator
     WebDavClient.authenticator = WebDavServerAuthenticator
+    MediaFireClient.authenticator = MediaFireServerAuthenticator
+    GoogleDriveClient.authenticator = GoogleDriveServerAuthenticator
 }
 
 private fun initializeLiveDataObjects() {

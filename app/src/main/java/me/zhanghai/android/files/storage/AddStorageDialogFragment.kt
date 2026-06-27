@@ -71,6 +71,12 @@ class AddStorageDialogFragment : AppCompatDialogFragment() {
             R.string.storage_add_storage_webdav_server to
                 EditWebDavServerActivity::class.createIntent()
                     .putArgs(EditWebDavServerFragment.Args()),
+            R.string.storage_add_storage_mediafire_server to
+                EditMediaFireServerActivity::class.createIntent()
+                    .putArgs(EditMediaFireServerFragment.Args()),
+            R.string.storage_add_storage_gdrive_server to
+                EditGoogleDriveServerActivity::class.createIntent()
+                    .putArgs(EditGoogleDriveServerFragment.Args()),
         )
     }
 }

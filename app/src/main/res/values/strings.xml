@@ -537,6 +537,8 @@
     <string name="storage_add_storage_sftp_server">SFTP server</string>
     <string name="storage_add_storage_smb_server">SMB server</string>
     <string name="storage_add_storage_webdav_server">WebDAV server</string>
+    <string name="storage_add_storage_mediafire_server">MediaFire server</string>
+    <string name="storage_add_storage_gdrive_server">Google Drive (Service Account)</string>
     <string name="storage_edit_device_storage_title">Edit device storage</string>
     <string name="storage_edit_device_storage_name">Name</string>
     <string name="storage_edit_device_storage_path">Path</string>
@@ -670,6 +672,36 @@
     <string name="storage_edit_webdav_server_access_token_error_empty">Enter an access token</string>
     <string name="storage_edit_webdav_server_connect_and_add">Connect and add</string>
     <string name="storage_edit_webdav_server_add">Add</string>
+
+    <string name="storage_edit_mediafire_server_title_edit">Edit MediaFire server</string>
+    <string name="storage_edit_mediafire_server_title_add">Add MediaFire server</string>
+    <string name="storage_edit_mediafire_server_email">Email</string>
+    <string name="storage_edit_mediafire_server_email_error_empty">Enter an email</string>
+    <string name="storage_edit_mediafire_server_password">Password</string>
+    <string name="storage_edit_mediafire_server_password_error_empty">Enter a password</string>
+    <string name="storage_edit_mediafire_server_app_id">Application ID</string>
+    <string name="storage_edit_mediafire_server_app_id_error_empty">Enter an Application ID</string>
+    <string name="storage_edit_mediafire_server_api_key">API Key</string>
+    <string name="storage_edit_mediafire_server_api_key_error_empty">Enter an API Key</string>
+    <string name="storage_edit_mediafire_server_name">Name</string>
+    <string name="storage_edit_mediafire_server_name_placeholder">Use email</string>
+    <string name="storage_edit_mediafire_server_connect_and_add">Connect and add</string>
+    <string name="storage_edit_mediafire_server_add">Add</string>
+
+    <string name="storage_edit_gdrive_server_title_edit">Edit Google Drive</string>
+    <string name="storage_edit_gdrive_server_title_add">Add Google Drive</string>
+    <string name="storage_edit_gdrive_server_json">Service Account JSON</string>
+    <string name="storage_edit_gdrive_server_json_error_empty">Enter the service account JSON</string>
+    <string name="storage_edit_gdrive_server_json_error_invalid_json">Invalid JSON format</string>
+    <string name="storage_edit_gdrive_server_json_error_invalid_email">Missing client_email in JSON</string>
+    <string name="storage_edit_gdrive_server_import_json">Import JSON File</string>
+    <string name="storage_edit_gdrive_server_root_folder_id">Root Folder ID (Optional)</string>
+    <string name="storage_edit_gdrive_server_root_folder_id_placeholder">root</string>
+    <string name="storage_edit_gdrive_server_name">Name</string>
+    <string name="storage_edit_gdrive_server_name_placeholder">Use client email</string>
+    <string name="storage_edit_gdrive_server_view_with_media_cache">View with media cache</string>
+    <string name="storage_edit_gdrive_server_connect_and_add">Connect and add</string>
+    <string name="storage_edit_gdrive_server_add">Add</string>
 
     <string name="navigation_storage_subtitle_format">%1$s free of %2$s</string>
     <string name="navigation_add_storage">Add storage…</string>
