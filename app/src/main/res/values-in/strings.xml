@@ -408,6 +408,13 @@
     <string name="storage_add_storage_sftp_server">Server SFTP</string>
     <string name="storage_add_storage_smb_server">Server SMB</string>
     <string name="storage_add_storage_webdav_server">Peladen WebDAV</string>
+    <string name="storage_add_storage_ntfs_usb_otg">NTFS USB OTG</string>
+    <string name="ntfs_usb_title">NTFS USB OTG</string>
+    <string name="ntfs_usb_no_devices">Tidak ada perangkat USB Mass Storage terhubung</string>
+    <string name="ntfs_usb_permission_required">Izin USB Host diperlukan untuk mengakses perangkat</string>
+    <string name="ntfs_usb_mount_failed">Gagal membuka volume NTFS</string>
+    <string name="ntfs_usb_open_volume">Membuka volume NTFS…</string>
+    <string name="ntfs_usb_read_failed">Gagal membaca file dari volume NTFS</string>
     <string name="storage_edit_device_storage_title">Sunting penyimpanan perangkat</string>
     <string name="storage_edit_device_storage_name">Nama</string>
     <string name="storage_edit_device_storage_path">Jalur</string>

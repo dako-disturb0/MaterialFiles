@@ -17,6 +17,10 @@ import me.zhanghai.android.files.app.AppActivity
 import me.zhanghai.android.files.file.MimeType
 import me.zhanghai.android.files.util.createIntent
 import me.zhanghai.android.files.util.extraPath
+import android.hardware.usb.UsbDevice
+import android.hardware.usb.UsbManager
+import me.zhanghai.android.files.storage.AddNtfsUsbActivity
+import me.zhanghai.android.files.util.getParcelableExtraSafe
 import me.zhanghai.android.files.util.putArgs
 
 class FileListActivity : AppActivity() {
@@ -24,6 +28,14 @@ class FileListActivity : AppActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        if (intent.action == UsbManager.ACTION_USB_DEVICE_ATTACHED) {
+            val device = intent.getParcelableExtraSafe<UsbDevice>(UsbManager.EXTRA_DEVICE)
+            startActivity(
+                AddNtfsUsbActivity::class.createIntent()
+                    .putExtra(UsbManager.EXTRA_DEVICE, device)
+            )
+        }
 
         // Calls ensureSubDecor().
         findViewById<View>(android.R.id.content)
@@ -33,6 +45,17 @@ class FileListActivity : AppActivity() {
         } else {
             fragment = supportFragmentManager.findFragmentById(android.R.id.content)
                 as FileListFragment
+        }
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        if (intent.action == UsbManager.ACTION_USB_DEVICE_ATTACHED) {
+            val device = intent.getParcelableExtraSafe<UsbDevice>(UsbManager.EXTRA_DEVICE)
+            startActivity(
+                AddNtfsUsbActivity::class.createIntent()
+                    .putExtra(UsbManager.EXTRA_DEVICE, device)
+            )
         }
     }
 
